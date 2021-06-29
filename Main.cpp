@@ -138,6 +138,7 @@ bool auth(string username, string password) {
 	string db[5][2] = {
 		{"anhalim", "admin"},
 		{"indra", "indraadmin077"},
+		{"Wibisono", "wibiganteng"},
 		{"admin", "admin"}
 	};// Implementasi array 2D
 	int i = 0;
