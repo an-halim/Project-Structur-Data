@@ -22,7 +22,6 @@ bool login();
 
 int main() {
 	SetConsoleTitle(TEXT("Hospital Helper"));
-	system("color 70");
 	if (login())
 	{
 		mainMenu();
@@ -151,11 +150,11 @@ bool auth(string username, string password) {
 		}
 		else {
 			cout << "Password atau username salah!" << endl;
-			cout << db[i][i] << db[i][i + 1] << endl;
+			
 			authenticated = false;
 		}
 		i++;
-	} while (authenticated);
+	} while (authenticated == false);
 	
 	return authenticated;
 }

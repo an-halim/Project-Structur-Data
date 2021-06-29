@@ -1,3 +1,2 @@
 ﻿  Main.cpp
-D:\3344\smt2\strucktur data\FP\Final Project\Main.cpp(152,21): error C2146: syntax error: missing ';' before identifier 'db'
-D:\3344\smt2\strucktur data\FP\Final Project\Main.cpp(152,34): error C2676: binary '<<': 'std::string' does not define this operator or a conversion to a type acceptable to the predefined operator
+  Final Project.vcxproj -> D:\3344\smt2\strucktur data\FP\Final Project\Debug\Final Project.exe
