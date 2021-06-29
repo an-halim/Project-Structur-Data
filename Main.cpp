@@ -3,7 +3,15 @@
 #include <Windows.h>
 
 using namespace std;
+/*
+implementasi array -> done
+implementasi struct -> done
+implementasi pointer
+implementasi search
+implementasi sorting
+implementasi queue
 
+*/
 struct guest {
 	string nama;
 	int nik;
@@ -16,7 +24,6 @@ int jumlah = 0;
 void mainMenu();
 void quisioner();
 bool regist();
-void adminPanel();
 bool auth(string username, string password);
 bool login();
 
@@ -35,13 +42,13 @@ int main() {
 void mainMenu() {
 	string uname, pass;
 	int pilihan;
+	system("cls");
 	cout << "Menu" << endl;
 	cout << "--------------------------" << endl;
 	cout << "1. Screening Covid-19" << endl;
 	cout << "2. Rapid test" << endl;// implementasi queue
 	cout << "3. Cek data vaksinasi" << endl;
 	cout << "4. Pengajuan vaksinasi" << endl;
-	cout << "5. Admin panel" << endl;
 	cout << "e. keluar" << endl;
 
 	cout << "Masukan pilihan kamu => ";
@@ -53,14 +60,6 @@ void mainMenu() {
 			quisioner();
 		break;
 	case 5:
-		cout << "Masukan username : ";
-		cin >> uname;
-		cout << "Masukan password : ";
-		cin >> pass;
-		if (auth(uname, pass))
-			adminPanel();
-		else
-			cout << "Maaf password atau username kamu tidak dikenal!" << endl;
 		break;
 	default:
 		cout << "Terimakasih" << endl;
@@ -141,22 +140,16 @@ bool auth(string username, string password) {
 		{"admin", "admin"}
 	};// Implementasi array 2D
 	int i = 0;
-	bool authenticated;
 
 	do
 	{
-		if (username == db[i][i] && password == db[i][i + 1]) {
-			authenticated = true;
-		}
-		else {
-			cout << "Password atau username salah!" << endl;
-			
-			authenticated = false;
-		}
+		if (username == db[i][i] && password == db[i][i + 1])
+			return true;
 		i++;
-	} while (authenticated == false);
-	
-	return authenticated;
+	} while (i<5);
+
+	cout << "Password atau username salah!" << endl;
+	return false;
 }
 
 bool login() {
@@ -171,12 +164,8 @@ bool login() {
 
 }
 
-void adminPanel() {
-	cout << "ADMIN PANEL" << endl;
 
-}
-
-void rapid() {
+void rapid() {//implementasi queue
 	char pilih;
 	int nik, i = 0;
 	cout << "Apakah pasien sebelumnya sudah terdaftar? Y/n : ";
