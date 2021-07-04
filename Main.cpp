@@ -7,25 +7,26 @@ using namespace std;
 implementasi array -> done
 implementasi struct -> done
 implementasi pointer
-implementasi search
+implementasi search -> done
 implementasi sorting
 implementasi queue
 
 */
 struct guest {
 	string nama;
-	int nik;
+	long int nik;
 	string address;
 	int umur;
 } person[100];// Implementasi array of struct
 
-int jumlah = 0;
+int jumlah = 0; // public
 
 void mainMenu();
 void quisioner();
 bool regist();
 bool auth(string username, string password);
 bool login();
+int cari(long int nik);
 
 int main() {
 	SetConsoleTitle(TEXT("Hospital Helper"));
@@ -41,7 +42,9 @@ int main() {
 
 void mainMenu() {
 	string uname, pass;
+	long int nik;
 	int pilihan;
+	int hasil;
 	system("cls");
 	cout << "Menu" << endl;
 	cout << "--------------------------" << endl;
@@ -60,6 +63,16 @@ void mainMenu() {
 			quisioner();
 		break;
 	case 5:
+		cout << "Masukan NIK pasien: ";
+		cin >> nik;
+		hasil = cari(nik);
+		if (hasil != -1)
+		{
+			cout << "Nama: " << person[hasil].nama << endl;
+			cout << "Umur: " << person[hasil].umur << endl;
+			cout << "NIK: " << person[hasil].nik << endl;
+			cout << "Alamat: " << person[hasil].address << endl;
+		}
 		break;
 	default:
 		cout << "Terimakasih" << endl;
@@ -130,6 +143,7 @@ void quisioner() {
 	else {
 		cout << "Segera lakukan rapid test, Datang ke Fasilitas Kesehatan terdekat atau Hubungi segera layanan 119 Ext 9." << endl;
 	}
+	mainMenu();
 }
 
 bool auth(string username, string password) {
@@ -167,7 +181,8 @@ bool login() {
 
 void rapid() {//implementasi queue
 	char pilih;
-	int nik, i = 0;
+	long int nik;
+	int i = 0;
 	cout << "Apakah pasien sebelumnya sudah terdaftar? Y/n : ";
 	cin >> pilih;
 	if (pilih == 'Y' || pilih == 'y')
@@ -184,4 +199,22 @@ void rapid() {//implementasi queue
 		}
 	}
 
+}
+
+int cari(long int nik) { //implementasi searching
+	int posisi = -1;
+	for (int i = 0; i < jumlah; i++)
+	{
+		if (nik == person[i].nik) {
+			posisi = i;
+			cout << "Data ditemukan!!" << endl;
+			return posisi;
+		}
+	}
+	
+	if (posisi == -1)
+	{
+		cout << "Data tidak ditemukan!!" << endl;
+		return posisi;
+	}
 }
