@@ -445,6 +445,7 @@ bool sync() {
 				data = 0;
 			}*/
 			cout << line << "\n";
+
 			i++;
 			
 		}
