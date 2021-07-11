@@ -2,8 +2,8 @@
 #include <string>
 #include <Windows.h>
 #include <fstream>
-#include <cstdlib>
 #include <string.h>
+#include <queue>
 
 using namespace std;
 /*
@@ -24,24 +24,25 @@ struct guest {
 
 int jumlah = -1; // public
 
-void mainMenu();
-void quisioner();
-bool regist();
-bool auth(string username, string password);
 bool login();
-int cari(char nik[]);
-void rapid();
-void cetakHasil(string data);
-void sorting(int sortMode);
-bool sync();
-string saveToTxt(string name, string addres, char nik[], int umur, string data);
+bool auth(string username, string password);
 void loading();
-void exitConfrim();
+void mainMenu(queue<string> g);
+bool regist();
+void quisioner(queue<string> g);
+void rapid(queue<string> q);
+int cari(char nik[]);
+void sorting(int sortMode);
+void cetakHasil(string data);
+string saveToTxt(string name, string addres, char nik[], int umur, string data);
+void exitConfirm();
+void showq(queue<string> g);
 
 
 int main() {
 	SetConsoleTitle(TEXT("Hospital Helper"));
 	bool isLogin;
+	queue<string> antri;
 	do
 	{
 		system("cls");
@@ -49,17 +50,61 @@ int main() {
 		if (isLogin)
 		{
 			cout << "Login berhasil!";
-			Sleep(2000);
+			Sleep(1200);
 			loading();
-			mainMenu();
+			mainMenu(antri);
 		}
 	} while (!isLogin);
 
 	return 0;
 }
 
+bool login() {
+	string username, password;
+	cout << "LOGIN" << endl;
+	cout << "Username : "; cin >> username;
+	cout << "Passsword : "; cin >> password;
+	if (auth(username, password))
+		return true;
+	else
+		return false;
 
-void mainMenu() {
+}
+
+bool auth(string username, string password) {
+	string db[5][3] = {
+		{"anhalim", "admin", "ahmad nur halim"},
+		{"indra", "indraadmin077", "full name"},
+		{"Wibisono", "wibiganteng", "full name"},
+		{"admin", "admin", "full name" }
+	};// Implementasi array 2D
+	int i = 0;
+
+	do
+	{
+		if (username == db[i][0] && password == db[i][1]) {
+			return true;
+		}
+		i++;
+	} while (i < 5);
+
+	cout << "Password atau username salah!" << endl;
+	Sleep(1000);
+	return false;
+}
+
+void loading() {
+	string s = " ";
+	for (int i = 0; i < 100; i++) {
+		system("cls");
+		cout << "\n\n\n\n\n\t\t\t\t\t\t\tLoading " << i << "% ";
+		s += "=";
+		cout << endl;
+		cout << "\t" << s;
+	}
+}
+
+void mainMenu(queue<string> g) {
 	string uname, pass;
 	char nik[17];
 	int pilihan, hasil;
@@ -75,7 +120,7 @@ void mainMenu() {
 	cout << "3. Rapid test" << endl;// implementasi queue
 	cout << "4. Cari data pasien" << endl; // implementasi searching
 	cout << "5. Tampilkan data pasien" << endl; // implementasi sorting
-	cout << "e. keluar" << endl;
+	cout << "6. keluar" << endl;
 
 	cout << "Masukan pilihan kamu => ";
 	cin >> pilihan;
@@ -90,25 +135,30 @@ void mainMenu() {
 		}
 		break;
 	case 2:
-		cout << "Apakah pasien sebelumnya sudah terdaftar? Y/n : ";
+		cout << "Apakah pasien sebelumnya sudah terdaftar? [Y/n] -> ";
 		cin >> pilih;
 		if (pilih == 'Y' || pilih == 'y')
 		{
 			cout << "Silahkan masukan NIK anda : ";
 			cin >> nik;
 			hasil = cari(nik);
-			if (hasil == 0)
+			if (hasil != -1)
 			{
-				quisioner();
+				quisioner(g);
 			}
 		}
 		else
 		{
-			regist();
+			isRegistered = regist();
+			if (isRegistered)
+			{
+				system("cls");
+				cout << "Registrasi berhasil!" << endl;
+			}
 		}
 		break;
 	case 3:
-		rapid();
+		rapid(g);
 		break;
 	case 4:
 		system("cls");
@@ -133,24 +183,25 @@ void mainMenu() {
 		cin >> k;
 		sorting(k);
 		break;
+	case 6:
+		exitConfirm();
+		break;
 	default:
-		cout << "Terimakasih" << endl;
-		exit(0);
+		cout << "Pilihan menu tidak tersedia!" << endl;
 		break;
 	}
-	cout << "Ingin kembali ke menu utama? y/n -> ";
+	cout << "\nKembali ke menu utama? [Y/n] -> ";
 	cin >> pilih;
-	if (pilih == 'y')
+	if (pilih == 'Y' || pilih =='y')
 		goto awal;
 	else
-		exitConfrim();
+		exitConfirm();
 }
 
 bool regist() {
 	char pilihan;
 	system("cls");
-	cout << "Sebelum melanjutkan apakah data diri pasien bersedia tersimpan dalam database?" << endl;
-	cout << "Y/n? -> ";
+	cout << "Sebelum melanjutkan apakah data diri pasien bersedia tersimpan dalam database? [Y/n] -> ";
 	cin >> pilihan;
 	
 	if (pilihan == 'y' || pilihan == 'Y') {
@@ -171,11 +222,12 @@ bool regist() {
 	else
 	{
 		cout << "Registrasi gagal!" << endl;
+		Sleep(1000);
 		return false;
 	}
 }
 
-void quisioner() {
+void quisioner(queue<string> g) {
 	system("cls");
 	string pilihan, hasil;
 	int yes = 0;
@@ -190,7 +242,7 @@ void quisioner() {
 	string answer[3] = {
 		"Lakukan perawatan mandiri di rumah dengan beristirahat jika seminggu tidak ada perubahan segera datang ke klinik terdekta",
 		"Kondisi anda kurang fit, segera periksa dokter terdekat!",
-		"Segera lakukan rapid test, Datang ke Fasilitas Kesehatan terdekat atau Hubungi segera layanan 119 Ext 9."
+		"Segera lakukan rapid test di Fasilitas Kesehatan terdekat atau Hubungi segera layanan 119 Ext 9."
 	};
 
 	cout << "Silahkan isi quisioner berikut\n" << endl;
@@ -216,74 +268,53 @@ void quisioner() {
 		cetakHasil(hasil);
 	}
 	
-	cout << "Simpan hasil tes kedalam file? y/n -> ";
+	cout << "Simpan hasil tes kedalam file? [Y/n] -> ";
 	cin >> pilihan;
 	if (pilihan == "ya" || pilihan == "YA" || pilihan == "y" || pilihan == "Y") {
 		string save = saveToTxt(person[jumlah].nama, person[jumlah].address, person[jumlah].nik, person[jumlah].umur, hasil);
+		cout << "\nFile tersimpan dalam " << save << endl;
 	}
 
-	cout << "Apakah anda ingin melakukan rapid test? y/n -> ";
+	cout << "Apakah anda ingin melakukan rapid test? [Y/n] -> ";
 	cin >> pilihan;
 	if (pilihan == "ya" || pilihan == "YA" || pilihan == "y" || pilihan == "Y")
-		rapid();
+		rapid(g);
 	else
-		mainMenu();
+		mainMenu(g);
 }
 
-bool auth(string username, string password) {
-	string db[5][3] = {
-		{"anhalim", "admin", "ahmad nur halim"},
-		{"indra", "indraadmin077", "full name"},
-		{"Wibisono", "wibiganteng", "full name"},
-		{"admin", "admin", "full name" }
-	};// Implementasi array 2D
-	int i = 0;
-
-	do
-	{
-		if (username == db[i][0] && password == db[i][1]) {
-			return true;
-		}
-		i++;
-	} while (i<5);
-
-	cout << "Password atau username salah!" << endl;
-	Sleep(1000);
-	return false;
-}
-
-bool login() {
-	string username, password;
-	cout << "LOGIN" << endl;
-	cout << "Username : "; cin >> username;
-	cout << "Passsword : "; cin >> password;
-	if (auth(username, password))
-		return true;
-	else
-		return false;
-
-}
-
-
-void rapid() {//implementasi queue
+void rapid(queue<string> q) {//implementasi queue
 	char pilih;
+	int pilihan;
 	char nik[17];
 	int hasil, i = 0;
 
-		cout << "Apakah pasien sebelumnya sudah terdaftar? Y/n : ";
+		cout << "Apakah pasien sebelumnya sudah terdaftar? [Y/n] -> ";
 		cin >> pilih;
 		if (pilih == 'Y' || pilih == 'y')
 		{
 			cout << "Silahkan masukan NIK anda : ";
 			cin >> nik;
 			hasil = cari(nik);
-			if (hasil == 0)
+			if (hasil != -1)
 			{
-				cout << "AMBIL ANTRIAN RAPID" << endl;
-				cout << "1. rapid antigen" << endl;
-				cout << "2. rapid antibodi" << endl;
-				cout << "3. swab pcr" << endl;
+				showq(q);
+				cout << "RAPID TEST" << endl;
+				cout << "1. Ambil antrian" << endl;
+				cout << "2. Panggil antrian" << endl;
 				cout << "Silahkan masukan antrian yang akan diambil -> ";
+				cin >> pilihan;
+				if (pilihan == 1 )
+				{
+					q.push(person[hasil].nama);
+				}
+				else if (pilihan == 2)
+				{
+					if (q.empty())
+						cout << "Antrian kosong!" << endl;
+					else
+						q.pop();
+				}
 
 			}
 		}
@@ -317,6 +348,8 @@ void sorting(int sortMode) { //implemetasi bubble sort
 	char tempNIK[17];
 	string tempAdd, tempNama;
 	int total = jumlah + 1;
+
+	system("cls");
 	if (jumlah == -1) {
 		cout << "Data pasien kosong!" << endl;
 		return;
@@ -402,12 +435,16 @@ void sorting(int sortMode) { //implemetasi bubble sort
 	else
 		cout << "Data pasien berdasarkan umur tertua" << endl;
 
-	cout << "\nUmur\tNama\tNIK\tAlamat " << endl;
-	for (i = 0; i <= jumlah; i++)
-		cout << person[i].umur << "\t" << person[i].nama << "\t" << person[i].nik << "\t" << person[i].address << endl;
+	for (i = 0; i <= jumlah; i++) {
+		int no = i + 1;
+		cout <<
+			no << ".\tNama : " << person[i].nama
+			<< "\n\tUmur : " << person[i].umur
+			<< "\n\tNIK  : " << person[i].nik
+			<< "\n\tAlamat : " << person[i].address << endl;
+	}
+		
 }
-
-
 
 void cetakHasil(string data) {
 	system("cls");
@@ -417,7 +454,7 @@ void cetakHasil(string data) {
 	cout << "NIK: " << person[jumlah].nik << endl;
 	cout << "Alamat: " << person[jumlah].address << endl;
 	cout << "Hasil: " << data << endl;
-	cout << "===================================" << endl;
+	cout << "====================================" << endl;
 }
 
 string saveToTxt(string name, string addres, char nik[], int umur, string data) {
@@ -441,77 +478,11 @@ string saveToTxt(string name, string addres, char nik[], int umur, string data) 
 	}
 }
 
-bool sync() {
-	string line;
-	int i = 1;
-	int data = 0, ganjil = 1, genap = 1;
-	ifstream myfile("DBPASIEN.txt");// belom jadi masih pusing algoritmanya
-	if (myfile.is_open())
-	{
-		while (getline(myfile, line))
-		{
-			/*if (i % 2 == 1)
-			{
-				if (ganjil == 2)
-				{
-					int nik = atoi(line.c_str());
-					person[jumlah].nama = nik;
-					ganjil = 1;
-					data++;
-				}
-				person[jumlah].nama = line;
-				ganjil = 2;
-				data++;
-			}
-			if (i % 2 == 0)
-			{
-				if (genap == 2)
-				{
-					person[jumlah].address = line;
-					genap = 1;
-					data++;
-				}
-				int umur = atoi(line.c_str());
-				person[jumlah].umur = umur;
-				genap = 2;
-				data++;
-			}
-			if (data == 4)
-			{
-				jumlah++;
-				data = 0;
-			}*/
-			cout << line << "\n";
-
-			i++;
-			
-		}
-		cout << i;
-		myfile.close();
-		//Sleep(56565);
-		return true;
-	}
-
-	else
-		return false;
-}
-
-void loading() {
-	string s = " ";
-	for (int i = 0; i < 100; i++) {
-		system("cls");
-		cout << "\n\n\n\n\n\t\t\t\t\t\t\tLoading " << i << "% ";
-		s += "=";
-		cout << endl;
-		cout << "\t" << s;
-	}
-}
-
-void exitConfrim() {
+void exitConfirm() {
 	string konfir, username, password;
 	system("cls");
 	cout << "Semua data pasien yang tersimpan akan terhapus!" << endl;
-	cout << "Apakah anda yakin keluar? y/n : ";
+	cout << "Apakah anda yakin keluar? [Y/n] -> ";
 	cin >> konfir;
 	if (konfir == "Y" || konfir == "y")
 	{
@@ -526,4 +497,13 @@ void exitConfrim() {
 			exit(0);
 		}
 	}
+}
+
+void showq(queue<string> g)
+{
+	while (!g.empty()) {
+		cout << '\t' << g.front();
+		g.pop();
+	}
+	cout << '\n';
 }
