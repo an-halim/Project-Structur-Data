@@ -368,7 +368,7 @@ int cari(char nik[]) { //implementasi squential search
 			posisi = i;
 			cout << "\t+----------------------------+";
 			cout << "\n\t|Data ditemukan!!            |"<< endl;
-			cout << "\t+----------------------------+";
+			cout << "\t+----------------------------+\n";
 		}
 	}
 	
@@ -376,7 +376,7 @@ int cari(char nik[]) { //implementasi squential search
 	{
 		cout << "\t+----------------------------+";
 		cout << "\n\t|Data Tidak ditemukan!!      |"<< endl;
-		cout << "\t+----------------------------+";
+		cout << "\t+----------------------------+\n";
 	}
 	return posisi;
 }
@@ -566,19 +566,17 @@ void push(string data)
 {
 	if (IsEmpty() == 1)
 	{
-		cout << "\t|";
+		cout << "\n\t";
 		antrian.head = antrian.tail = 0;
 		antrian.data[antrian.tail] = data;
-		cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!|" << endl;
-		cout << "\t+----------------------------+";
+		cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
 	}
 	else if (IsFull() == 0)
 	{		
-			cout << "\t|";
+			cout << "\n\t";
 			antrian.tail++;
 			antrian.data[antrian.tail] = data;
-			cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!|" << endl;
-			cout << "\t+----------------------------+";
+			cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
 	}
 	else {
 		cout << "Antrian penuh" << endl;
