@@ -187,7 +187,6 @@ awal:
 		if (hasil != -1)
 		{
 			cout << "\n\t---------------------------------" << endl;
-			cout << "\n\t---------------------------------" << endl;
 			cout << "\t       Hasil Pencarian NIK       " << endl;
 			cout << "\t---------------------------------" << endl;
 			cout << "\n>\tNama: " << person[hasil].nama << endl;
@@ -369,6 +368,7 @@ int cari(char nik[]) { //implementasi squential search
 			posisi = i;
 			cout << "\t+----------------------------+";
 			cout << "\n\t|Data ditemukan!!            |"<< endl;
+			cout << "\t+----------------------------+";
 		}
 	}
 	
