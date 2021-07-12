@@ -38,6 +38,15 @@ string saveToTxt(string name, string addres, char nik[], int umur, string data);
 void exitConfirm();
 void showq(queue<string> g);
 
+void centerstring(char* s)
+{
+	int l = strlen(s);
+	int pos = (int)((80 - l) / 2);
+	for (int i = 0; i < pos; i++)
+		cout << " ";
+
+	cout << s;
+}
 
 int main() {
 	SetConsoleTitle(TEXT("Hospital Helper"));
@@ -49,7 +58,7 @@ int main() {
 		isLogin = login();
 		if (isLogin)
 		{
-			cout << "Login berhasil!";
+			cout << "\n\t\t\t\t\t\t   Login berhasil!";
 			Sleep(1200);
 			loading();
 			mainMenu(antri);
@@ -61,9 +70,9 @@ int main() {
 
 bool login() {
 	string username, password;
-	cout << "LOGIN" << endl;
-	cout << "Username : "; cin >> username;
-	cout << "Passsword : "; cin >> password;
+	cout << "\n\t\t\t\n\t\t\t\t\t\t\tLOGIN" << endl;
+	cout << "\n\t\t\t\tUsername  : "; cin >> username;
+	cout << "\n\t\t\t\tPasssword : "; cin >> password;
 	if (auth(username, password))
 		return true;
 	else
@@ -74,8 +83,8 @@ bool login() {
 bool auth(string username, string password) {
 	string db[5][3] = {
 		{"anhalim", "admin", "ahmad nur halim"},
-		{"indra", "indraadmin077", "full name"},
-		{"Wibisono", "wibiganteng", "full name"},
+		{"indra", "admin", "ade indra yudha pratama"},
+		{"Wibisono", "wibiganteng", "satrio wibisono"},
 		{"admin", "admin", "full name" }
 	};// Implementasi array 2D
 	int i = 0;
@@ -88,7 +97,7 @@ bool auth(string username, string password) {
 		i++;
 	} while (i < 5);
 
-	cout << "Password atau username salah!" << endl;
+	cout << "\n\n\t\t\t\t\t     Password atau username salah!" << endl;
 	Sleep(1000);
 	return false;
 }
@@ -97,10 +106,11 @@ void loading() {
 	string s = " ";
 	for (int i = 0; i < 100; i++) {
 		system("cls");
-		cout << "\n\n\n\n\n\t\t\t\t\t\t\tLoading " << i << "% ";
+		cout << "\n\n\n\n\n\t\t\t\t\t\t      Loading  " << i << "% " << "\n\t\t\t   Jangan keluarkan program ataupun tekan apapun saat proses sedang berjalan\n";
 		s += "=";
 		cout << endl;
 		cout << "\t" << s;
+		cout << "\n\n\n\n\n\t\t\t\t\t\t Hospital Helper @2021";
 	}
 }
 
@@ -113,16 +123,19 @@ void mainMenu(queue<string> g) {
 	awal:
 
 	system("cls");
-	cout << "Menu" << endl;
-	cout << "--------------------------" << endl;
-	cout << "1. Registrasi pasien" << endl;
-	cout << "2. Screening Covid-19" << endl;
-	cout << "3. Rapid test" << endl;// implementasi queue
-	cout << "4. Cari data pasien" << endl; // implementasi searching
-	cout << "5. Tampilkan data pasien" << endl; // implementasi sorting
-	cout << "6. keluar" << endl;
+	cout << "\n\tSelamat datang diHospital Helper" << endl;
+	cout << "\n\t-------------------------------" << endl;
+	cout << "\t\t     Menu";
+	cout << "\n\t-------------------------------" << endl;
+	cout << "\n\t1. Registrasi pasien" << endl;
+	cout << "\n\t2. Screening Covid-19" << endl;
+	cout << "\n\t3. Rapid test" << endl;// implementasi queue
+	cout << "\n\t4. Cari data pasien" << endl; // implementasi searching
+	cout << "\n\t5. Tampilkan data pasien" << endl; // implementasi sorting
+	cout << "\n\t6. keluar" << endl;
+	cout << "\n\t-------------------------------" << endl;
 
-	cout << "Masukan pilihan kamu => ";
+	cout << "\n\n\tMasukan pilihan kamu => ";
 	cin >> pilihan;
 	switch (pilihan)
 	{
@@ -131,15 +144,15 @@ void mainMenu(queue<string> g) {
 		if (isRegistered)
 		{
 			system("cls");
-			cout << "Registrasi berhasil!" << endl;
+			cout << "\tRegistrasi berhasil!" << endl;
 		}
 		break;
 	case 2:
-		cout << "Apakah pasien sebelumnya sudah terdaftar? [Y/n] -> ";
+		cout << "\n\tApakah pasien sebelumnya sudah terdaftar? [Y/n] -> ";
 		cin >> pilih;
 		if (pilih == 'Y' || pilih == 'y')
 		{
-			cout << "Silahkan masukan NIK anda : ";
+			cout << "\tSilahkan masukan NIK anda : ";
 			cin >> nik;
 			hasil = cari(nik);
 			if (hasil != -1)
@@ -153,7 +166,7 @@ void mainMenu(queue<string> g) {
 			if (isRegistered)
 			{
 				system("cls");
-				cout << "Registrasi berhasil!" << endl;
+				cout << "\tRegistrasi berhasil!" << endl;
 			}
 		}
 		break;
@@ -201,27 +214,28 @@ void mainMenu(queue<string> g) {
 bool regist() {
 	char pilihan;
 	system("cls");
-	cout << "Sebelum melanjutkan apakah data diri pasien bersedia tersimpan dalam database? [Y/n] -> ";
+	cout << "\n>\tSebelum melanjutkan apakah data diri pasien bersedia tersimpan dalam database? [Y/n] -> ";
 	cin >> pilihan;
 	
 	if (pilihan == 'y' || pilihan == 'Y') {
 		jumlah++;
-		cout << "Data diri pasien" << endl;
-		cout << "Nama : ";
+		cout << "\n\tData diri pasien" << endl;
+		cout << "\t--------------------" << endl;
+		cout << ">\tNama : ";
 		cin.ignore();
 		getline(cin, person[jumlah].nama);
-		cout << "Umur : ";
+		cout << ">\n\tUmur : ";
 		cin >> person[jumlah].umur;
-		cout << "NIK  : ";
+		cout << ">\n\tNIK  : ";
 		cin >> person[jumlah].nik;
-		cout << "Alamat : ";
+		cout << ">\n\tAlamat : ";
 		cin.ignore();
 		getline(cin, person[jumlah].address);
 		return true;
 	}
 	else
 	{
-		cout << "Registrasi gagal!" << endl;
+		cout << ">\tRegistrasi gagal!" << endl;
 		Sleep(1000);
 		return false;
 	}
