@@ -140,7 +140,7 @@ awal:
 	cout << "\n\t6. keluar" << endl;
 	cout << "\n\t-------------------------------" << endl;
 
-	cout << "\n\n\tMasukan pilihan kamu => ";
+	cout << "\n\n>\tMasukan pilihan kamu => ";
 	cin >> pilihan;
 	switch (pilihan)
 	{
@@ -149,15 +149,15 @@ awal:
 		if (isRegistered)
 		{
 			system("cls");
-			cout << "\tRegistrasi berhasil!" << endl;
+			cout << ">\tRegistrasi berhasil!" << endl;
 		}
 		break;
 	case 2:
-		cout << "\n\tApakah pasien sebelumnya sudah terdaftar? [Y/n] -> ";
+		cout << "\n>\tApakah pasien sebelumnya sudah terdaftar? [Y/n] -> ";
 		cin >> pilih;
 		if (pilih == 'Y' || pilih == 'y')
 		{
-			cout << "\tSilahkan masukan NIK anda : ";
+			cout << ">\tSilahkan masukan NIK anda : ";
 			cin >> nik;
 			hasil = cari(nik);
 			if (hasil != -1)
@@ -171,7 +171,7 @@ awal:
 			if (isRegistered)
 			{
 				system("cls");
-				cout << "\tRegistrasi berhasil!" << endl;
+				cout << ">\tRegistrasi berhasil!" << endl;
 			}
 		}
 		break;
@@ -181,23 +181,27 @@ awal:
 		break;
 	case 4:
 		system("cls");
-		cout << "Masukan NIK pasien: ";
+		cout << ">\tMasukan NIK pasien: ";
 		cin >> nik;
 		hasil = cari(nik);
 		if (hasil != -1)
 		{
-			cout << "Nama: " << person[hasil].nama << endl;
-			cout << "Umur: " << person[hasil].umur << endl;
-			cout << "NIK: " << person[hasil].nik << endl;
-			cout << "Alamat: " << person[hasil].address << endl;
+			cout << "\n\t---------------------------------" << endl;
+			cout << "\n\t---------------------------------" << endl;
+			cout << "\t       Hasil Pencarian NIK       " << endl;
+			cout << "\t---------------------------------" << endl;
+			cout << "\n>\tNama: " << person[hasil].nama << endl;
+			cout << ">\tUmur: " << person[hasil].umur << endl;
+			cout << ">\tNIK: " << person[hasil].nik << endl;
+			cout << ">\tAlamat: " << person[hasil].address << endl;
 		}
 		break;
 	case 5:
 		system("cls");
-		cout << "Pilih tipe pengurutan data" << endl;
-		cout << "1. ascending(menaik)" << endl;
-		cout << "2. descending(menurun)" << endl;
-		cout << "Masukan pilihan -> ";
+		cout << "\tPilih tipe pengurutan data" << endl;
+		cout << "\t1. ascending(menaik)" << endl;
+		cout << "\t2. descending(menurun)" << endl;
+		cout << "\n>\tMasukan pilihan -> ";
 		int k;
 		cin >> k;
 		sorting(k);
@@ -206,10 +210,10 @@ awal:
 		exitConfirm();
 		break;
 	default:
-		cout << "Pilihan menu tidak tersedia!" << endl;
+		cout << ">\tPilihan menu tidak tersedia!" << endl;
 		break;
 	}
-	cout << "\nKembali ke menu utama? [Y/n] -> ";
+	cout << "\n\n>\tKembali ke menu utama? [Y/n] -> ";
 	cin >> pilih;
 	if (pilih == 'Y' || pilih =='y')
 		goto awal;
@@ -232,11 +236,11 @@ bool regist() {
 		cout << ">\tNama : ";
 		cin.ignore();
 		getline(cin, person[jumlah].nama);
-		cout << ">\n\tUmur : ";
+		cout << "\n>\tUmur : ";
 		cin >> person[jumlah].umur;
-		cout << ">\n\tNIK  : ";
+		cout << "\n>\tNIK  : ";
 		cin >> person[jumlah].nik;
-		cout << ">\n\tAlamat : ";
+		cout << "\n>\tAlamat : ";
 		cin.ignore();
 		getline(cin, person[jumlah].address);
 		return true;
@@ -254,11 +258,11 @@ void quisioner() {
 	string pilihan, hasil;
 	int yes = 0;
 	string question[5] = {
-		"Apakah pasien demam?",
-		"Apakah pasien batuk/pilek?",
-		"Apakah Anda pernah kontak dengan pasien positif COVID-19 atau berada satu ruangan yang sama atau kontak dalam 1 meter pada 14 hari terakhir ?",
-		"Apakah Anda pernah berkunjung atau tinggal ke negara atau daerah endemis COVID-19 dalam 14 hari Terakhir?",
-		"Apakah Anda mengalami Diare pada 14 hari terakhir ?"
+		"\n\tApakah pasien demam?",
+		"\n\tApakah pasien batuk/pilek?",
+		"\n\tApakah Anda pernah kontak dengan pasien positif COVID-19 atau berada satu ruangan yang sama atau kontak dalam \n\t1 meter pada 14 hari terakhir ?",
+		"\n\tApakah Anda pernah berkunjung atau tinggal ke negara atau daerah endemis COVID-19 dalam 14 hari Terakhir?",
+		"\n\tApakah Anda mengalami Diare pada 14 hari terakhir ?"
 	};
 
 	string answer[3] = {
@@ -267,14 +271,15 @@ void quisioner() {
 		"Segera lakukan rapid test di Fasilitas Kesehatan terdekat atau Hubungi segera layanan 119 Ext 9."
 	};
 
-	cout << "Silahkan isi quisioner berikut\n" << endl;
+	cout << "\n\tSilahkan isi quisioner berikut\n" << endl;
 	for (int i = 0; i < 5; i++)
 	{
 		cout << question[i] << endl;
-		cout << "ya/tidak?\n->";
+		cout << "\n>\tya/tidak?\n\t->";
 		cin >> pilihan;
 		if (pilihan == "ya" || pilihan == "Ya" || pilihan == "YA" || pilihan == "Y" || pilihan == "y")
 			yes++;
+		cout << "\t---------------------------------------------\n";
 	}
 
 	if (yes <= 2) {
@@ -290,14 +295,14 @@ void quisioner() {
 		cetakHasil(&hasil);
 	}
 	
-	cout << "Simpan hasil tes kedalam file? [Y/n] -> ";
+	cout << "\n>\tSimpan hasil tes kedalam file? [Y/n] -> ";
 	cin >> pilihan;
 	if (pilihan == "ya" || pilihan == "YA" || pilihan == "y" || pilihan == "Y") {
 		string save = saveToTxt(&hasil);
 		cout << save << endl;
 	}
 
-	cout << "Apakah anda ingin melakukan rapid test? [Y/n] -> ";
+	cout << "\n>\tApakah anda ingin melakukan rapid test? [Y/n] -> ";
 	cin >> pilihan;
 	if (pilihan == "ya" || pilihan == "YA" || pilihan == "y" || pilihan == "Y")
 		rapid();
@@ -312,21 +317,24 @@ void rapid() {//implementasi queue
 	char nik[17];
 	int hasil, i = 0;
 
-		cout << "Apakah pasien sebelumnya sudah terdaftar? [Y/n] -> ";
+		cout << "\n>\tApakah pasien sebelumnya sudah terdaftar? [Y/n] -> ";
 		cin >> pilih;
 		if (pilih == 'Y' || pilih == 'y')
 		{
 			system("cls");
 			Tampil();
-			cout << "Menu" << endl;
-			cout << "1. Ambil antrian" << endl;
-			cout << "2. Panggil antrian" << endl;
-			cout << "3. Reset antrian" << endl;
-			cout << "Silahkan masukan antrian yang akan diambil -> ";
+			cout << "\n\t-------------------------------" << endl;
+			cout << "\t\t     Menu";
+			cout << "\n\t-------------------------------" << endl;
+			cout << "\n\t1. Ambil antrian" << endl;
+			cout << "\t2. Panggil antrian" << endl;
+			cout << "\t3. Reset antrian" << endl;
+			cout << "\n\t-------------------------------" << endl;
+			cout << "\n\tSilahkan masukan antrian yang akan diambil -> ";
 			cin >> pilihan;
 			if (pilihan == 1 )
 			{
-				cout << "Silahkan masukan NIK pasien : ";
+				cout << "\n>\tSilahkan masukan NIK pasien : ";
 				cin >> nik;
 				hasil = cari(nik);
 				if (hasil != -1)
@@ -341,7 +349,7 @@ void rapid() {//implementasi queue
 					cout << "Antrian kosong!" << endl;
 				else {
 					string pasienName = pop();
-					cout << "Silahkan panggil pasien " << pasienName << " untuk melakukan tes rapid!" << endl;
+					cout << "\n\tSilahkan panggil pasien " << pasienName << " untuk melakukan tes rapid!" << endl;
 				}
 			}
 		}
@@ -359,13 +367,16 @@ int cari(char nik[]) { //implementasi squential search
 	{
 		if (strcmp(nik, person[i].nik) == 0) {
 			posisi = i;
-			cout << "Data ditemukan!!" << endl;
+			cout << "\t+----------------------------+";
+			cout << "\n\t|Data ditemukan!!            |"<< endl;
 		}
 	}
 	
 	if (posisi == -1)
 	{
-		cout << "Data tidak ditemukan!!" << endl;
+		cout << "\t+----------------------------+";
+		cout << "\n\t|Data Tidak ditemukan!!      |"<< endl;
+		cout << "\t+----------------------------+";
 	}
 	return posisi;
 }
@@ -379,7 +390,9 @@ void sorting(int sortMode) { //implemetasi bubble sort
 
 	system("cls");
 	if (jumlah == -1) {
-		cout << "Data pasien kosong!" << endl;
+		cout << "\t+----------------------------+";
+		cout << "\n\t|Data pasien kosong!         |" << endl;
+		cout << "\t+----------------------------+";
 		return;
 	} 
 	else if (sortMode == 1)// ascending
@@ -476,13 +489,13 @@ void sorting(int sortMode) { //implemetasi bubble sort
 
 void cetakHasil(string *data) {
 	system("cls");
-	cout << "===========Hasil periksa============" << endl;
-	cout << "Nama: " << person[jumlah].nama << endl;
-	cout << "Umur: " << person[jumlah].umur << endl;
-	cout << "NIK: " << person[jumlah].nik << endl;
-	cout << "Alamat: " << person[jumlah].address << endl;
-	cout << "Hasil: " << *data << endl;
-	cout << "====================================" << endl;
+	cout << "\n\t===========Hasil periksa============" << endl;
+	cout << "\n\tNama   : " << person[jumlah].nama << endl;
+	cout << "\tUmur   : " << person[jumlah].umur << endl;
+	cout << "\tNIK    : " << person[jumlah].nik << endl;
+	cout << "\tAlamat : " << person[jumlah].address << endl;
+	cout << "\tHasil  : " << *data << endl;
+	cout << "\n\t====================================" << endl;
 }
 
 string saveToTxt(string *data) {
@@ -491,19 +504,19 @@ string saveToTxt(string *data) {
 	ofstream myfile(fileName);
 	if (myfile.is_open())
 	{
-		myfile << "===========Hasil periksa============" << endl;
-		myfile << "Nama: " << person[jumlah].nama << endl;
-		myfile << "Umur: " << person[jumlah].umur << endl;
-		myfile << "NIK: " << person[jumlah].nik << endl;
-		myfile << "Alamat: " << person[jumlah].address << endl;
-		myfile << "Hasil: " << *data << endl;
-		myfile << "===================================" << endl;
+		myfile << "\n\t===========Hasil periksa============" << endl;
+		myfile << "\n\tNama   : " << person[jumlah].nama << endl;
+		myfile << "\tUmur   : " << person[jumlah].umur << endl;
+		myfile << "\tNIK    : " << person[jumlah].nik << endl;
+		myfile << "\tAlamat : " << person[jumlah].address << endl;
+		myfile << "\tHasil  : " << *data << endl;
+		myfile << "\n\t===================================" << endl;
 		myfile.close();
-		return "Hasil tersimpan dalam " + fileName;
+		return "\n\tHasil tersimpan dalam " + fileName;
 	}
 	else
 	{
-		return "Gagal menyimpan file!";
+		return "\n\tGagal menyimpan file!";
 	}
 }
 
@@ -512,16 +525,16 @@ void exitConfirm() {
 
 	SetConsoleTitle(TEXT("LOGOUT"));
 	system("cls");
-	cout << "Semua data pasien yang tersimpan akan terhapus!" << endl;
-	cout << "Apakah anda yakin keluar? [Y/n] -> ";
+	cout << "\n\tSemua data pasien yang tersimpan akan terhapus!" << endl;
+	cout << "\tApakah anda yakin keluar? [Y/n] -> ";
 	cin >> konfir;
 	if (konfir == "Y" || konfir == "y")
 	{
 		cout << endl;
-		cout << "Sebagai konfirmasi akhir silahkan masukan username dan password anda" << endl;
-		cout << "Username : ";
+		cout << "\tSebagai konfirmasi akhir silahkan masukan username dan password anda" << endl;
+		cout << "\tUsername : ";
 		cin >> username;
-		cout << "Password : ";
+		cout << "\tPassword : ";
 		cin >> password;
 		if (auth(username, password))
 		{
@@ -553,15 +566,19 @@ void push(string data)
 {
 	if (IsEmpty() == 1)
 	{
+		cout << "\t|";
 		antrian.head = antrian.tail = 0;
 		antrian.data[antrian.tail] = data;
-		cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
+		cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!|" << endl;
+		cout << "\t+----------------------------+";
 	}
 	else if (IsFull() == 0)
-	{
+	{		
+			cout << "\t|";
 			antrian.tail++;
 			antrian.data[antrian.tail] = data;
-			cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
+			cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!|" << endl;
+			cout << "\t+----------------------------+";
 	}
 	else {
 		cout << "Antrian penuh" << endl;
@@ -590,15 +607,17 @@ void Tampil()
 	
 	if (IsEmpty() == 0)
 	{
-		cout << "Daftar antrian" << endl;
-		cout << "No.\tNama" << endl;
+		cout << "\n\tDaftar antrian" << endl;
+		cout << "\t------------------------" << endl;
+		cout << "\tNo.\tNama" << endl;
 		for (int i = antrian.head; i <= antrian.tail; i++)
 		{
-			cout << i + 1 << "\t" << antrian.data[i] << endl;
+			cout << "\t" << i + 1 << "\t" << antrian.data[i] << endl;
+			cout << "\t------------------------" << endl;
 		}
 	}
 	else
-		cout << "Tidak ada antrian rapid test!" << endl;
+		cout << "\n\tTidak ada antrian rapid test!" << endl;
 
 	cout << endl;
 }
