@@ -6,16 +6,16 @@
 
 using namespace std;
 /*
-implementasi array -> done
-implementasi struct -> done
-implementasi pointer -> done
-implementasi search -> done
-implementasi sorting -> done
-implementasi queue -> done
+implementasi array -> done 
+implementasi struct -> done 
+implementasi pointer -> done 
+implementasi search -> done 
+implementasi sorting -> done 
+implementasi queue -> done 
 
 */
 
-#define MAX 10
+#define MAX 10 // jumlah maksimal untuk antrian (bisa ditambah)
 
 struct guest {
 	string nama;
@@ -128,7 +128,7 @@ awal:
 
 	SetConsoleTitle(TEXT("Hospital Helper"));
 	system("cls");
-	cout << "\n\tSelamat datang diHospital Helper" << endl;
+	cout << "\n\tSelamat datang di Hospital Helper" << endl;
 	cout << "\n\t-------------------------------" << endl;
 	cout << "\t\t     Menu";
 	cout << "\n\t-------------------------------" << endl;
@@ -328,6 +328,7 @@ void rapid() {//implementasi queue
 			cout << "\n\t1. Ambil antrian" << endl;
 			cout << "\t2. Panggil antrian" << endl;
 			cout << "\t3. Reset antrian" << endl;
+			cout << "\t4. Keluar" << endl;
 			cout << "\n\t-------------------------------" << endl;
 			cout << "\n\tSilahkan masukan antrian yang akan diambil -> ";
 			cin >> pilihan;
@@ -350,6 +351,14 @@ void rapid() {//implementasi queue
 					string pasienName = pop();
 					cout << "\n\tSilahkan panggil pasien " << pasienName << " untuk melakukan tes rapid!" << endl;
 				}
+			}
+			else if (pilihan == 3)
+			{
+				Clear();
+			}
+			else
+			{
+				return;
 			}
 		}
 		else
