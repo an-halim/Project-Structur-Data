@@ -3,18 +3,20 @@
 #include <Windows.h>
 #include <fstream>
 #include <string.h>
-#include <queue>
 
 using namespace std;
 /*
 implementasi array -> done
 implementasi struct -> done
-implementasi pointer
+implementasi pointer -> done
 implementasi search -> done
 implementasi sorting -> done
-implementasi queue
+implementasi queue -> done
 
 */
+
+#define MAX 10
+
 struct guest {
 	string nama;
 	char nik[17]{};
@@ -22,27 +24,39 @@ struct guest {
 	int umur{};
 } person[100];// Implementasi array of struct
 
+struct queue {
+	string data[MAX]{};
+	int head{}, tail{};
+} antrian;
+
 int jumlah = -1; // public
 
 bool login();
 bool auth(string username, string password);
 void loading();
-void mainMenu(queue<string> g);
+void mainMenu();
 bool regist();
-void quisioner(queue<string> g);
-void rapid(queue<string> q);
+void quisioner();
+void rapid();
 int cari(char nik[]);
 void sorting(int sortMode);
-void cetakHasil(string data);
-string saveToTxt(string name, string addres, char nik[], int umur, string data);
+void cetakHasil(string *data);
+string saveToTxt(string *data);
 void exitConfirm();
-void showq(queue<string> g);
+void init();
+int IsEmpty();
+int IsFull();
+void push(string data);
+string pop();
+void Clear();
+void Tampil();
 
 
 int main() {
 	SetConsoleTitle(TEXT("Hospital Helper"));
 	bool isLogin;
-	queue<string> antri;
+	init();
+	
 	do
 	{
 		system("cls");
@@ -52,7 +66,7 @@ int main() {
 			cout << "Login berhasil!";
 			Sleep(1200);
 			loading();
-			mainMenu(antri);
+			mainMenu();
 		}
 	} while (!isLogin);
 
@@ -104,14 +118,15 @@ void loading() {
 	}
 }
 
-void mainMenu(queue<string> g) {
+void mainMenu() {
 	string uname, pass;
 	char nik[17];
 	int pilihan, hasil;
 	char pilih;
 	bool isRegistered;
-	awal:
+awal:
 
+	SetConsoleTitle(TEXT("Hospital Helper"));
 	system("cls");
 	cout << "Menu" << endl;
 	cout << "--------------------------" << endl;
@@ -144,7 +159,7 @@ void mainMenu(queue<string> g) {
 			hasil = cari(nik);
 			if (hasil != -1)
 			{
-				quisioner(g);
+				quisioner();
 			}
 		}
 		else
@@ -158,7 +173,8 @@ void mainMenu(queue<string> g) {
 		}
 		break;
 	case 3:
-		rapid(g);
+		system("cls");
+		rapid();
 		break;
 	case 4:
 		system("cls");
@@ -200,6 +216,8 @@ void mainMenu(queue<string> g) {
 
 bool regist() {
 	char pilihan;
+
+	SetConsoleTitle(TEXT("Registrasi pasien"));
 	system("cls");
 	cout << "Sebelum melanjutkan apakah data diri pasien bersedia tersimpan dalam database? [Y/n] -> ";
 	cin >> pilihan;
@@ -227,7 +245,7 @@ bool regist() {
 	}
 }
 
-void quisioner(queue<string> g) {
+void quisioner() {
 	system("cls");
 	string pilihan, hasil;
 	int yes = 0;
@@ -257,33 +275,34 @@ void quisioner(queue<string> g) {
 
 	if (yes <= 2) {
 		hasil = answer[0];
-		cetakHasil(hasil);
+		cetakHasil(&hasil);
 	}
 	else if (yes == 3) {
 		hasil = answer[1];
-		cetakHasil(hasil);
+		cetakHasil(&hasil);
 	}
 	else {
 		hasil = answer[2];
-		cetakHasil(hasil);
+		cetakHasil(&hasil);
 	}
 	
 	cout << "Simpan hasil tes kedalam file? [Y/n] -> ";
 	cin >> pilihan;
 	if (pilihan == "ya" || pilihan == "YA" || pilihan == "y" || pilihan == "Y") {
-		string save = saveToTxt(person[jumlah].nama, person[jumlah].address, person[jumlah].nik, person[jumlah].umur, hasil);
-		cout << "\nFile tersimpan dalam " << save << endl;
+		string save = saveToTxt(&hasil);
+		cout << save << endl;
 	}
 
 	cout << "Apakah anda ingin melakukan rapid test? [Y/n] -> ";
 	cin >> pilihan;
 	if (pilihan == "ya" || pilihan == "YA" || pilihan == "y" || pilihan == "Y")
-		rapid(g);
+		rapid();
 	else
-		mainMenu(g);
+		mainMenu();
 }
 
-void rapid(queue<string> q) {//implementasi queue
+void rapid() {//implementasi queue
+	SetConsoleTitle(TEXT("RAPID TEST"));
 	char pilih;
 	int pilihan;
 	char nik[17];
@@ -293,35 +312,40 @@ void rapid(queue<string> q) {//implementasi queue
 		cin >> pilih;
 		if (pilih == 'Y' || pilih == 'y')
 		{
-			cout << "Silahkan masukan NIK anda : ";
-			cin >> nik;
-			hasil = cari(nik);
-			if (hasil != -1)
+			system("cls");
+			Tampil();
+			cout << "Menu" << endl;
+			cout << "1. Ambil antrian" << endl;
+			cout << "2. Panggil antrian" << endl;
+			cout << "3. Reset antrian" << endl;
+			cout << "Silahkan masukan antrian yang akan diambil -> ";
+			cin >> pilihan;
+			if (pilihan == 1 )
 			{
-				showq(q);
-				cout << "RAPID TEST" << endl;
-				cout << "1. Ambil antrian" << endl;
-				cout << "2. Panggil antrian" << endl;
-				cout << "Silahkan masukan antrian yang akan diambil -> ";
-				cin >> pilihan;
-				if (pilihan == 1 )
+				cout << "Silahkan masukan NIK pasien : ";
+				cin >> nik;
+				hasil = cari(nik);
+				if (hasil != -1)
 				{
-					q.push(person[hasil].nama);
+					push(person[hasil].nama);
 				}
-				else if (pilihan == 2)
-				{
-					if (q.empty())
-						cout << "Antrian kosong!" << endl;
-					else
-						q.pop();
+				
+			}
+			else if (pilihan == 2)
+			{
+				if (IsEmpty())
+					cout << "Antrian kosong!" << endl;
+				else {
+					string pasienName = pop();
+					cout << "Silahkan panggil pasien " << pasienName << " untuk melakukan tes rapid!" << endl;
 				}
-
 			}
 		}
 		else
 		{
 			regist();
 		}
+		Sleep(1000);
 
 }
 
@@ -446,19 +470,20 @@ void sorting(int sortMode) { //implemetasi bubble sort
 		
 }
 
-void cetakHasil(string data) {
+void cetakHasil(string *data) {
 	system("cls");
 	cout << "===========Hasil periksa============" << endl;
 	cout << "Nama: " << person[jumlah].nama << endl;
 	cout << "Umur: " << person[jumlah].umur << endl;
 	cout << "NIK: " << person[jumlah].nik << endl;
 	cout << "Alamat: " << person[jumlah].address << endl;
-	cout << "Hasil: " << data << endl;
+	cout << "Hasil: " << *data << endl;
 	cout << "====================================" << endl;
 }
 
-string saveToTxt(string name, string addres, char nik[], int umur, string data) {
-	string fileName = name + "_HASILSCREENING.txt";
+string saveToTxt(string *data) {
+	string charToString = person[jumlah].nik;
+	string fileName = charToString + "_HASILSCREENING.txt";
 	ofstream myfile(fileName);
 	if (myfile.is_open())
 	{
@@ -467,7 +492,7 @@ string saveToTxt(string name, string addres, char nik[], int umur, string data) 
 		myfile << "Umur: " << person[jumlah].umur << endl;
 		myfile << "NIK: " << person[jumlah].nik << endl;
 		myfile << "Alamat: " << person[jumlah].address << endl;
-		myfile << "Hasil: " << data << endl;
+		myfile << "Hasil: " << *data << endl;
 		myfile << "===================================" << endl;
 		myfile.close();
 		return "Hasil tersimpan dalam " + fileName;
@@ -480,6 +505,8 @@ string saveToTxt(string name, string addres, char nik[], int umur, string data) 
 
 void exitConfirm() {
 	string konfir, username, password;
+
+	SetConsoleTitle(TEXT("LOGOUT"));
 	system("cls");
 	cout << "Semua data pasien yang tersimpan akan terhapus!" << endl;
 	cout << "Apakah anda yakin keluar? [Y/n] -> ";
@@ -497,13 +524,77 @@ void exitConfirm() {
 			exit(0);
 		}
 	}
+	else
+		mainMenu();
 }
 
-void showq(queue<string> g)
+
+void init() {
+	antrian.head = antrian.tail = -1;
+}
+int IsEmpty() {
+	if (antrian.tail == -1)
+		return 1;
+	else
+		return 0;
+}
+int IsFull() {
+	if (antrian.tail == MAX - 1)
+		return 1;
+	else
+		return 0;
+}
+
+void push(string data)
 {
-	while (!g.empty()) {
-		cout << '\t' << g.front();
-		g.pop();
+	if (IsEmpty() == 1)
+	{
+		antrian.head = antrian.tail = 0;
+		antrian.data[antrian.tail] = data;
+		cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
 	}
-	cout << '\n';
+	else if (IsFull() == 0)
+	{
+			antrian.tail++;
+			antrian.data[antrian.tail] = data;
+			cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
+	}
+	else {
+		cout << "Antrian penuh" << endl;
+	}
+}
+
+string pop()
+{
+	string e = antrian.data[antrian.head];
+	for (int i = antrian.head; i <= antrian.tail - 1; i++)
+	{
+		antrian.data[i] = antrian.data[i + 1];
+	}
+	antrian.tail--;
+	return e;
+}
+
+void Clear()
+{
+	antrian.head = antrian.tail = -1;
+	cout << "Antrian berhasil direset!" << endl;
+}
+
+void Tampil()
+{
+	
+	if (IsEmpty() == 0)
+	{
+		cout << "Daftar antrian" << endl;
+		cout << "No.\tNama" << endl;
+		for (int i = antrian.head; i <= antrian.tail; i++)
+		{
+			cout << i + 1 << "\t" << antrian.data[i] << endl;
+		}
+	}
+	else
+		cout << "Tidak ada antrian rapid test!" << endl;
+
+	cout << endl;
 }
