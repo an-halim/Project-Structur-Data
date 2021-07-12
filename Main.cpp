@@ -51,16 +51,6 @@ string pop();
 void Clear();
 void Tampil();
 
-void centerstring(char* s)
-{
-	int l = strlen(s);
-	int pos = (int)((80 - l) / 2);
-	for (int i = 0; i < pos; i++)
-		cout << " ";
-
-	cout << s;
-}
-
 int main() {
 	SetConsoleTitle(TEXT("Hospital Helper"));
 	bool isLogin;
