@@ -14,7 +14,7 @@ implementasi sorting -> done
 implementasi queue -> done
 */
 
-#define MAX 10
+#define MAX 10 // jumlah maksimal untuk antrian (bisa ditambah)
 
 struct guest {
 	string nama;
@@ -127,7 +127,7 @@ awal:
 
 	SetConsoleTitle(TEXT("Hospital Helper"));
 	system("cls");
-	cout << "\n\tSelamat datang diHospital Helper" << endl;
+	cout << "\n\tSelamat datang di Hospital Helper" << endl;
 	cout << "\n\t-------------------------------" << endl;
 	cout << "\t\t     Menu";
 	cout << "\n\t-------------------------------" << endl;
