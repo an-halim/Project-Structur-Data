@@ -12,7 +12,6 @@ implementasi pointer -> done
 implementasi search -> done
 implementasi sorting -> done
 implementasi queue -> done
-
 */
 
 #define MAX 10
@@ -197,7 +196,9 @@ awal:
 		break;
 	case 5:
 		system("cls");
-		cout << "\tPilih tipe pengurutan data" << endl;
+		cout << "\n\t---------------------------------" << endl;
+		cout << "\t   Pilih tipe pengurutan data    " << endl;
+		cout << "\t---------------------------------" << endl;
 		cout << "\t1. ascending(menaik)" << endl;
 		cout << "\t2. descending(menurun)" << endl;
 		cout << "\n>\tMasukan pilihan -> ";
@@ -320,43 +321,52 @@ void rapid() {//implementasi queue
 		cin >> pilih;
 		if (pilih == 'Y' || pilih == 'y')
 		{
-			system("cls");
-			Tampil();
-			cout << "\n\t-------------------------------" << endl;
-			cout << "\t\t     Menu";
-			cout << "\n\t-------------------------------" << endl;
-			cout << "\n\t1. Ambil antrian" << endl;
-			cout << "\t2. Panggil antrian" << endl;
-			cout << "\t3. Reset antrian" << endl;
-			cout << "\n\t-------------------------------" << endl;
-			cout << "\n\tSilahkan masukan antrian yang akan diambil -> ";
-			cin >> pilihan;
-			if (pilihan == 1 )
+			do
 			{
-				cout << "\n>\tSilahkan masukan NIK pasien : ";
-				cin >> nik;
-				hasil = cari(nik);
-				if (hasil != -1)
+				system("cls");
+				Tampil();
+				cout << "\n\t-------------------------------" << endl;
+				cout << "\t\t     Menu";
+				cout << "\n\t-------------------------------" << endl;
+				cout << "\n\t1. Ambil antrian" << endl;
+				cout << "\t2. Panggil antrian" << endl;
+				cout << "\t3. Reset antrian" << endl;
+				cout << "\n\t-------------------------------" << endl;
+				cout << "\n\tSilahkan masukan antrian yang akan diambil -> ";
+				cin >> pilihan;
+				if (pilihan == 1)
 				{
-					push(person[hasil].nama);
+					cout << "\n>\tSilahkan masukan NIK pasien : ";
+					cin >> nik;
+					hasil = cari(nik);
+					if (hasil != -1)
+					{
+						push(person[hasil].nama);
+					}
+					else
+					{
+						cout << "\n>\tData pasien dengan NIK " << nik << " tidak ditemukan, silahkan mendaftar terlebih dahulu!" << endl;
+						return;
+					}
+
 				}
-				
-			}
-			else if (pilihan == 2)
-			{
-				if (IsEmpty())
-					cout << "Antrian kosong!" << endl;
-				else {
-					string pasienName = pop();
-					cout << "\n\tSilahkan panggil pasien " << pasienName << " untuk melakukan tes rapid!" << endl;
+				else if (pilihan == 2)
+				{
+					if (IsEmpty())
+						cout << "Antrian kosong!" << endl;
+					else {
+						string pasienName = pop();
+						cout << "\n\tSilahkan panggil pasien " << pasienName << " untuk melakukan tes rapid!" << endl;
+					}
 				}
-			}
+				Sleep(2000);
+			} while (true);
 		}
 		else
 		{
 			regist();
 		}
-		Sleep(1000);
+		
 
 }
 
@@ -564,19 +574,34 @@ int IsFull() {
 
 void push(string data)
 {
+	system("cls");
 	if (IsEmpty() == 1)
 	{
-		cout << "\n\t";
+		for (int i = 0; i < MAX; i++) { // cek apakah sebelumnya pasien sudah mengambil antrian
+			if (data == antrian.data[i])
+			{
+				cout << "\n\tGagal mengambil antrian!" << endl;
+				cout << "\n\t " << data << " sudah mengambil antrian sebelumnya" << endl;
+				return;
+			}
+		}
 		antrian.head = antrian.tail = 0;
 		antrian.data[antrian.tail] = data;
-		cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
+		cout << "\n\t" << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
 	}
 	else if (IsFull() == 0)
 	{		
-			cout << "\n\t";
-			antrian.tail++;
-			antrian.data[antrian.tail] = data;
-			cout << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
+		for (int i = 0; i < MAX; i++) { // cek apakah sebelumnya pasien sudah mengambil antrian
+			if (data == antrian.data[i])
+			{
+				cout << "\n\tGagal mengambil antrian!" << endl;
+				cout << "\n\t" << data << " sudah mengambil antrian sebelumnya" << endl;
+				return;
+			}
+		}
+		antrian.tail++;
+		antrian.data[antrian.tail] = data;
+		cout << "\n\t " << antrian.data[antrian.tail] << " Berhasil mendapat antrian!" << endl;
 	}
 	else {
 		cout << "Antrian penuh" << endl;
