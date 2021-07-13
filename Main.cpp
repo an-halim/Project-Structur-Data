@@ -331,11 +331,13 @@ void rapid() {//implementasi queue
 				cout << "\n\t1. Ambil antrian" << endl;
 				cout << "\t2. Panggil antrian" << endl;
 				cout << "\t3. Reset antrian" << endl;
+				cout << "\t4. Keluar" << endl;
 				cout << "\n\t-------------------------------" << endl;
 				cout << "\n\tSilahkan masukan antrian yang akan diambil -> ";
 				cin >> pilihan;
-				if (pilihan == 1)
+				switch (pilihan)
 				{
+				case 1:
 					cout << "\n>\tSilahkan masukan NIK pasien : ";
 					cin >> nik;
 					hasil = cari(nik);
@@ -348,16 +350,24 @@ void rapid() {//implementasi queue
 						cout << "\n>\tData pasien dengan NIK " << nik << " tidak ditemukan, silahkan mendaftar terlebih dahulu!" << endl;
 						return;
 					}
-
-				}
-				else if (pilihan == 2)
-				{
+					break;
+				case 2:
 					if (IsEmpty())
 						cout << "Antrian kosong!" << endl;
 					else {
 						string pasienName = pop();
 						cout << "\n\tSilahkan panggil pasien " << pasienName << " untuk melakukan tes rapid!" << endl;
 					}
+					break;
+				case 3:
+					Clear();
+					break;
+				case 4:
+					return;
+					break;
+				default:
+					cout << "\n\tMenu tidak tersedia!" << endl;
+					break;
 				}
 				Sleep(2000);
 			} while (true);
@@ -622,7 +632,7 @@ string pop()
 void Clear()
 {
 	antrian.head = antrian.tail = -1;
-	cout << "Antrian berhasil direset!" << endl;
+	cout << "\n\tAntrian berhasil direset!" << endl;
 }
 
 void Tampil()
