@@ -83,18 +83,20 @@ bool login() {
 
 }
 
-bool auth(string username, string password) {
+bool auth(string username, string password) { //Implementasi array 2D
 	string db[5][3] = {
 		{"anhalim", "admin", "ahmad nur halim"},
 		{"indra", "admin", "ade indra yudha pratama"},
 		{"Wibisono", "wibiganteng", "satrio wibisono"},
-		{"admin", "admin", "full name" }
-	};// Implementasi array 2D
+		{"betha", "admin", "betharia pranesti nur pafitri"},
+		{"okta", "admin", "okta eka pratama"}
+	};
 	int i = 0;
 
 	do
 	{
 		if (username == db[i][0] && password == db[i][1]) {
+			cout << "\n\t\t\t\t\t\tSelamat datang " << db[i][2] << endl;
 			return true;
 		}
 		i++;
@@ -253,7 +255,7 @@ bool regist() {
 	}
 }
 
-void quisioner() {
+void quisioner() { //Implementasi array 
 	system("cls");
 	string pilihan, hasil;
 	int yes = 0;
@@ -507,7 +509,7 @@ void sorting(int sortMode) { //implemetasi bubble sort
 		
 }
 
-void cetakHasil(string *data) {
+void cetakHasil(string *data) { //Implementasi pointer
 	system("cls");
 	cout << "\n\t===========Hasil periksa============" << endl;
 	cout << "\n\tNama   : " << person[jumlah].nama << endl;
@@ -518,7 +520,7 @@ void cetakHasil(string *data) {
 	cout << "\n\t====================================" << endl;
 }
 
-string saveToTxt(string *data) {
+string saveToTxt(string *data) { //Implementasi pointer
 	string charToString = person[jumlah].nik;
 	string fileName = charToString + "_HASILSCREENING.txt";
 	ofstream myfile(fileName);
