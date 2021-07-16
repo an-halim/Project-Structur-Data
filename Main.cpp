@@ -26,29 +26,30 @@ struct guest {
 struct queue {
 	string data[MAX]{};
 	int head{}, tail{};
-} antrian;
+} antrian; 
 
-int jumlah = -1; // public
+int jumlah = -1; // public varibel penampung posisi terakhir data pasien
 
+//List fungsi
 bool login();
-bool auth(string username, string password);
+bool auth(string username, string password); //Implementasi array 2D
 void loading();
-void mainMenu();
+void mainMenu(); //Menu utama
 bool regist();
-void quisioner();
-void rapid();
-int cari(char nik[]);
-void sorting(int sortMode);
-void cetakHasil(string *data);
-string saveToTxt(string *data);
+void quisioner();//Implemetasi array
+void rapid(); //Implementasi queue
+int cari(char nik[]); //Implementasi squential search
+void sorting(int sortMode); //Implementasi sorting
+void cetakHasil(string *data); //Implementasi pointer
+string saveToTxt(string *data); //Implementasi pointer
 void exitConfirm();
-void init();
-int IsEmpty();
-int IsFull();
-void push(string data);
-string pop();
-void Clear();
-void Tampil();
+void init(); //fungsi queue
+int IsEmpty(); //fungsi queue
+int IsFull(); //fungsi queue
+void push(string data); //fungsi queue
+string pop(); //fungsi queue
+void Clear(); //fungsi queue
+void Tampil(); //fungsi queue
 
 int main() {
 	SetConsoleTitle(TEXT("Hospital Helper"));
