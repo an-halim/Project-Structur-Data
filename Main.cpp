@@ -97,7 +97,6 @@ bool auth(string username, string password) { //Implementasi array 2D
 	do
 	{
 		if (username == db[i][0] && password == db[i][1]) {
-			cout << "\n\t\t\t\t\t\tSelamat datang " << db[i][2] << endl;
 			return true;
 		}
 		i++;
@@ -379,7 +378,6 @@ void rapid() {//implementasi queue
 		{
 			regist();
 		}
-		
 
 }
 
@@ -567,7 +565,6 @@ void exitConfirm() {
 	else
 		mainMenu();
 }
-
 
 void init() {
 	antrian.head = antrian.tail = -1;
